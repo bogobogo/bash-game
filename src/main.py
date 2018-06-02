@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python 
+# -*- coding: utf-8 -*-
 import sys
 import subprocess
 import os
@@ -6,6 +7,7 @@ import fileinput
 import time
 from consts import IN_WIDTH
 from utils import removeNewLine
+from messages import first_message, first_messagea
 class InvalidArgument(Exception):
     pass
     
@@ -31,19 +33,35 @@ def addOutput(output, totalout_lines, in_width=IN_WIDTH):
     totalout_lines += filled_lines
 
 def render_totalout(totalout_lines, prompt=True):
-    final_screen_lines = totalout_lines
+    final_screen_lines = addGameMessage(totalout_lines, "hello")
     final_screen = "\n".join(final_screen_lines) + ("\n" if not prompt else "")
     return final_screen
-    
-def cleanScreen():
-    subprocess.call("clear", shell=True)
-    subprocess.call("printf '\e[3J'", shell=True)
+
+def addGameMessage(totalout_lines, gameMessage):
+    total_lines_with_messages = totalout_lines[:]
+    if len(total_lines_with_messages) > 3:
+        total_lines_with_messages[-3] = total_lines_with_messages[-3] + 40*" " + gameMessage
+    return total_lines_with_messages
+        
+# def cleanScreen():
+    # subprocess.call("clear", shell=True)
+    # subprocess.call("printf '\e[3J'", shell=True)
 
 def turn(totalout_lines):
+    totalout_lines = []
     addPrompt(totalout_lines, prompt)
-    cleanScreen()
-    sys.stdout.write(render_totalout(totalout_lines, True))
+    # cleanScreen()
+    subprocess.call("echo " + render_totalout(totalout_lines, True), shell=True)
+    subprocess.call("tput sc", shell=True)
+    subprocess.call("tput cup 0 0", shell=True)
+    subprocess.call("echo '██████████████████████████████████████████████████▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░'", shell=True)
+    subprocess.call("tput rc", shell=True)
+    subprocess.call("tput sc", shell=True)
+    subprocess.call("tput cup 0,0", shell=True)
+    subprocess.call("echo $'" + first_messagea + "'", shell=True)
+    subprocess.call("tput rc", shell=True)
     userInput = sys.stdin.readline()
+    
     addUserInput(removeNewLine(userInput), totalout_lines)
     command = removeNewLine(userInput)
     try:
@@ -64,4 +82,7 @@ def turn(totalout_lines):
         print 'Exception: %s' % e        
 
 if __name__ == '__main__':
+    subprocess.call("clear", shell=True)
+    subprocess.call("printf '\e[3J'", shell=True)
+    subprocess.call("tput cup 0 1", shell=True)
     turn([])
