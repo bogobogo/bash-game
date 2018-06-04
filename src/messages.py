@@ -1,42 +1,30 @@
-#### welcome to syshero - a multiplayer game world where you cooperate and compete with others to gain reputation and resources,
-#  using unix knowledge. no prior knowledge is required. you will enter the multiplayer world when you reach level 10.
-#  to get Started create your character
-# Name:
-#
-# 
-#to enter the world press y 
-#### use 
-#
-progresbar = """ ------------------------------------------
-"""
+import re
+from strings import progressBar, first_message
+from renderer import saveCursorPosition, restoreCursorPosition, goto, printMessage, printMessageAt
 
-first_message = """  .-----------------------------------------------------------------.
- /  .-.     Hey Dan. You don\\'t know me, but I need your         .-.  \\
-|  /   \    help.                                              /   \  |
-| |\_.  |   I wish I could tell you more but time is short.   |    /| |
-|\|  | /|                                                     |\  | |/|
-| `---\\' |   type \\'ls\\' to see files. use cat to                | `---\\' |
-|       |   display their content.                            |       | 
-|       |-----------------------------------------------------|       |
-\       |                                                     |       /
- \     /                                                       \     /
-  `---\\'                                                         `---\\'
-"""
+class Message():
+    @staticmethod
+    def createDeleteMessage(message, x):
+        split_message = message.split("\n")
+        erased_split_message = [re.sub(r'.', " ", msg) for msg in split_message]
+        base = "\n%-mamas".replace("mama", str(x))
+        return base.join(erased_split_message)
+    @staticmethod
+    def createMessage(message, x):        
+        split_message = message.split("\n")
+        base = "\n%-mamas".replace("mama", str(x))
+        return base.join(split_message)
+    def __init__(self, message, id, startPosition):
+        self.id = id
+        self.message = self.createMessage(message, startPosition[0])
+        self.deleteMessage = self.createDeleteMessage(message, startPosition[0])
+        self.startPosition = startPosition
+    def write(self):
+        printMessageAt(self.message, self.startPosition)
+    def erase(self):
+        printMessageAt(self.deleteMessage, self.startPosition)
+        
 
-first_message = """ .-----------------------------------------------------------------.
- /  .-.     Hey Dan. You don't know me, but I need your         .-.  \\
-|  /   \    help.                                              /   \  |
-| |\_.  |   I wish I could tell you more but time is short.   |    /| |
-|\|  | /|                                                     |\  | |/|
-| \`---' |   type 'ls' to see files. use cat to                | \`---' |
-|       |   display their content.                            |       | 
-|       |-----------------------------------------------------|       |
-\       |                                                     |       /
- \     /                                                       \     /
-  \`---'                                                         \`---'
-"""
 
-#### ascii progress bar at the top
-
-## use tput cols and tput lines to render 
-## use tput cup x y - see how it works 
+progressBar = Message(progressBar, "prg_bar", (50, 0))
+level1_firstMessage = Message(first_message, "lvl1", (50, 50))

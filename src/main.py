@@ -5,9 +5,11 @@ import subprocess
 import os
 import fileinput
 import time
+import renderer
 from consts import IN_WIDTH
 from utils import removeNewLine
-from messages import first_message, first_messagea
+from messages import level1_firstMessage, progressBar
+from strings import first_message
 class InvalidArgument(Exception):
     pass
     
@@ -32,57 +34,43 @@ def addOutput(output, totalout_lines, in_width=IN_WIDTH):
             filled_lines.append(fill_line(l, c = "."))
     totalout_lines += filled_lines
 
-def render_totalout(totalout_lines, prompt=True):
-    final_screen_lines = addGameMessage(totalout_lines, "hello")
-    final_screen = "\n".join(final_screen_lines) + ("\n" if not prompt else "")
-    return final_screen
-
-def addGameMessage(totalout_lines, gameMessage):
-    total_lines_with_messages = totalout_lines[:]
-    if len(total_lines_with_messages) > 3:
-        total_lines_with_messages[-3] = total_lines_with_messages[-3] + 40*" " + gameMessage
-    return total_lines_with_messages
-        
-# def cleanScreen():
-    # subprocess.call("clear", shell=True)
-    # subprocess.call("printf '\e[3J'", shell=True)
+# def render_totalout(totalout_lines, prompt=True):
+#     final_screen_lines = addGameMessage(totalout_lines, "hello")
+#     final_screen = "\n".join(final_screen_lines) + ("\n" if not prompt else "")
+#     return final_screen
 
 def turn(totalout_lines):
     totalout_lines = []
     addPrompt(totalout_lines, prompt)
-    # cleanScreen()
-    subprocess.call("echo " + render_totalout(totalout_lines, True), shell=True)
-    subprocess.call("tput sc", shell=True)
-    subprocess.call("tput cup 0 0", shell=True)
-    subprocess.call("echo '██████████████████████████████████████████████████▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░'", shell=True)
-    subprocess.call("tput rc", shell=True)
-    subprocess.call("tput sc", shell=True)
-    subprocess.call("tput cup 0,0", shell=True)
-    subprocess.call("echo $'" + first_messagea + "'", shell=True)
-    subprocess.call("tput rc", shell=True)
+    renderer.write(prompt)
+    progressBar.write()
+    level1_firstMessage.write()
+    # renderer.printMessageAt(first_message, (50, 50))       
+    # renderer.printMessageAt(first_message, (50, 50))       
     userInput = sys.stdin.readline()
-    
     addUserInput(removeNewLine(userInput), totalout_lines)
-    command = removeNewLine(userInput)
-    try:
-        process = subprocess.Popen(command, shell=True,
-                                            stdout=subprocess.PIPE, 
-                                            stderr=subprocess.PIPE)
-        out, err = process.communicate()
-        if out:
-            addOutput(out, totalout_lines)
-        elif err:
-            addOutput(err, totalout_lines)
-        sys.stdout.write(render_totalout(totalout_lines, False))
-        # errcode = process.returncode
-        if command == 'cd ..':
-            os.chdir('..')
-        turn(totalout_lines)
-    except Exception as e:
-        print 'Exception: %s' % e        
+    level1_firstMessage.erase()
+    userInput = sys.stdin.readline()
+    # command = removeNewLine(userInput)
+    # try:
+    #     process = subprocess.Popen(command, shell=True,
+    #                                         stdout=subprocess.PIPE, 
+    #                                         stderr=subprocess.PIPE)
+    #     out, err = process.communicate()
+    #     if out:
+    #         addOutput(out, totalout_lines)
+    #     elif err:
+    #         addOutput(err, totalout_lines)
+    #     sys.stdout.write(render_totalout(totalout_lines, False))
+    #     # errcode = process.returncode
+    #     turn(totalout_lines)
+    # except Exception as e:
+    #     print 'Exception: %s' % e        
 
 if __name__ == '__main__':
-    subprocess.call("clear", shell=True)
-    subprocess.call("printf '\e[3J'", shell=True)
+    renderer.cleanScreen()
     subprocess.call("tput cup 0 1", shell=True)
     turn([])
+
+## if command == 'cd ..':
+            # os.chdir('..')
