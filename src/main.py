@@ -34,43 +34,37 @@ def addOutput(output, totalout_lines, in_width=IN_WIDTH):
             filled_lines.append(fill_line(l, c = "."))
     totalout_lines += filled_lines
 
-# def render_totalout(totalout_lines, prompt=True):
-#     final_screen_lines = addGameMessage(totalout_lines, "hello")
-#     final_screen = "\n".join(final_screen_lines) + ("\n" if not prompt else "")
-#     return final_screen
-
-def turn(totalout_lines):
-    totalout_lines = []
-    addPrompt(totalout_lines, prompt)
+def turn():
     renderer.write(prompt)
-    progressBar.write()
-    level1_firstMessage.write()
-    # renderer.printMessageAt(first_message, (50, 50))       
-    # renderer.printMessageAt(first_message, (50, 50))       
     userInput = sys.stdin.readline()
-    addUserInput(removeNewLine(userInput), totalout_lines)
-    level1_firstMessage.erase()
-    userInput = sys.stdin.readline()
-    # command = removeNewLine(userInput)
-    # try:
-    #     process = subprocess.Popen(command, shell=True,
-    #                                         stdout=subprocess.PIPE, 
-    #                                         stderr=subprocess.PIPE)
-    #     out, err = process.communicate()
-    #     if out:
-    #         addOutput(out, totalout_lines)
-    #     elif err:
-    #         addOutput(err, totalout_lines)
-    #     sys.stdout.write(render_totalout(totalout_lines, False))
-    #     # errcode = process.returncode
-    #     turn(totalout_lines)
-    # except Exception as e:
-    #     print 'Exception: %s' % e        
+    command = removeNewLine(userInput)
+    try:
+        process = subprocess.Popen(command, shell=True,
+                                            stdout=subprocess.PIPE, 
+                                            stderr=subprocess.PIPE)
+        out, err = process.communicate()
+        subprocess.call("tput civis", shell=True)
+        progressBar.erase()
+        level1_firstMessage.erase()
+        if out:
+            renderer.write(out)
+        elif err:
+            renderer.write(err)
+        # errcode = process.returncode
+           
+        progressBar.write()
+        level1_firstMessage.write() 
+        subprocess.call("tput cnorm", shell=True)   
+        turn()
+    except Exception as e:
+        print 'Exception: %s' % e        
 
 if __name__ == '__main__':
     renderer.cleanScreen()
-    subprocess.call("tput cup 0 1", shell=True)
-    turn([])
+    # subprocess.call("tput cup 0 1", shell=True)
+    progressBar.write()
+    level1_firstMessage.write()
+    turn()
 
 ## if command == 'cd ..':
             # os.chdir('..')
