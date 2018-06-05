@@ -21,9 +21,9 @@ def echoMessage(message):
     """ Used for message writing after moving the cursor """
     subprocess.call("echo '" + message + "'", shell=True)
 def write(message):
-    """ default stdout message """    
+    """ default stdout message """ 
     sys.stdout.write(message)
-def printMessage(message):
+def printMessage(message):    
     """ Used for elaborate ASCII messages """
     subprocess.call(["printf $'" + message + "'", "-n"] , shell=True)
 def printMessageAt(message, location):
