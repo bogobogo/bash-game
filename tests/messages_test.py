@@ -18,9 +18,15 @@ class MessagesTest(unittest.TestCase):
     def test_deletes_message(self):
         new_message = Message("hello", "111", (0,0))
         self.assertEqual(new_message.deleteMessage, "     ")
-    # def test_delete_message_with_new_lines(self):
-    #     new_message = Message("hello\n", "111", (0,0))
-    #     self.assertEqual(new_message.deleteMessage, "     \n")
+    def test_delete_message_with_new_lines(self):
+        new_message = Message("hello\n", "111", (0,0))
+        self.assertEqual(new_message.deleteMessage, "     ")
+    def test_delete_message_with_new_lines2(self):
+        new_message = Message("hel\n", "111", (0,0))
+        self.assertEqual(new_message.deleteMessage, "   ")    
+    def test_delete_message_with_new_lines_in_middle_of_screen(self):
+        new_message = Message("hello\nhiiii\nyooooo\n", "111", (51,50))
+        self.assertEqual(new_message.deleteMessage, "     \n%-51s     \n%-51s      ")
     
 
 if __name__ == '__main__':
