@@ -1,4 +1,4 @@
 def removeNewLine(s):
-    if repr(s)[-3:-1] == '\\n':
-        return repr(s)[1:-3]
-    return str(s)
+    if s.endswith("\n"):
+        return s[:-1]
+    return s
