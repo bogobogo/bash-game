@@ -13,8 +13,8 @@ import os
 #
 
 
-progressBar = "██████████████████████████████████████████████████▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
-
+progressBar = "████████████████████████████▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+# progressBar = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 first_message_content = """ 
 Hey Dan. You don\\'t know me, but I need your   
 help.                                           
