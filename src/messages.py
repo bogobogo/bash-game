@@ -58,6 +58,6 @@ class Message():
 
         
 
-totalxp = Message(totalxp, "xp message", (IN_WIDTH + 30, 9))
-progressBar = Message(progressBar, "prg_bar", (IN_WIDTH + 3, 10))
+totalxp = Message(totalxp, "xp message", (IN_WIDTH + 28, 9))
+progressBar = Message(progressBar, "prg_bar", (IN_WIDTH + 2, 10))
 level1_firstMessage = Message(first_message, "lvl1", (IN_WIDTH + 0, 11))

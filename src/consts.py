@@ -1,1 +1,2 @@
 IN_WIDTH = 70
+TESTING = True

@@ -6,10 +6,12 @@ import os
 import fileinput
 import time
 import renderer
-from consts import IN_WIDTH
+from consts import IN_WIDTH, TESTING
 from utils import removeNewLine
 from messages import level1_firstMessage, progressBar, totalxp
 from strings import first_message
+
+getUserInput = lambda: sys.stdin.readline()
 class InvalidArgument(Exception):
     pass
     
@@ -34,10 +36,11 @@ def addOutput(output, totalout_lines, in_width=IN_WIDTH):
             filled_lines.append(fill_line(l, c = " "))
     totalout_lines += filled_lines
 
+
 def turn(totalout_lines, n=0):
     addPrompt(totalout_lines, prompt)
     renderer.write(prompt)
-    userInput = sys.stdin.readline()
+    userInput = getUserInput()
     command = removeNewLine(userInput)
     addUserInput(command, totalout_lines)
     try:
@@ -66,7 +69,7 @@ def turn(totalout_lines, n=0):
 if __name__ == '__main__':
     renderer.cleanScreen()
     # subprocess.call("tput cup 0 1", shell=True)
-    # renderer.setTerminalSize(150, 150)
+    renderer.setTerminalSize(150, 150)
     totalxp.overlay([])    
     progressBar.overlay([])
     level1_firstMessage.overlay([])
