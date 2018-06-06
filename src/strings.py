@@ -12,8 +12,8 @@ import os
 #### use 
 #
 
-
-progressBar = "████████████████████████████▒░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+totalxp = '80xp to level 2'
+progressBar = "[=========================================================       ] 120"
 # progressBar = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 first_message_content = """ 
 Hey Dan. You don\\'t know me, but I need your   

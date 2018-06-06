@@ -21,4 +21,4 @@ first_message_no_tabs = """  .--------------------------------------------------
 \       |                                                     |       /
  \     /                                                       \     /
   `---\\'                                                         `---\\'"""
-first_message = first_message_raw.replace('mamama', '50')
+first_message = first_message_no_tabs.split('\n')
