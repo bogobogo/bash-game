@@ -1,1 +1,1 @@
-IN_WIDTH = 80
+IN_WIDTH = 70
